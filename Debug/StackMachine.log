@@ -1,0 +1,6 @@
+﻿  Example.cpp
+c:\users\dickson\source\repos\stackmachine\stackmachine\stackmachine.h(108): warning C4018: '<': incompatibilidade de signed/unsigned
+  StackMachine.h
+c:\users\dickson\source\repos\stackmachine\stackmachine\stackmachine.h(108): warning C4018: '<': incompatibilidade de signed/unsigned
+  Gerando Código...
+  StackMachine.vcxproj -> C:\Users\Dickson\source\repos\StackMachine\Debug\StackMachine.exe
