@@ -17,46 +17,38 @@ public:
 	
 	void run() {
 		
-		vector<string> tokensPostfix = infixToPostfix("( A + B ) * C - ( D - E ) * ( F + G )"/*"1 * 2 + 3 * 4"*/);
+		//vector<string> tokensPostfix = infixToPostfix(/*"( A + B ) * C - ( D - E ) * ( F + G )"*/"1 * 2 + 3 * 4");
+		vector<string> tokensPostfix = infixToPostfix("( ( A + B ) * ( C - ( F / D ) )");
 
+		for (std::vector<std::string>::iterator c = tokensPostfix.begin(); c != tokensPostfix.end(); c++/*  C++  :-) C++ :-/   */) {
+			std::cout << *c << std::endl;
 
-		push(1);
-		push(2);
-		add();
-		push(3);
-		push(5);
-		push(4);
-		div();
-		sub();
-		mul();
-		
-		
-		/*push(0);
-		push(a);
-
-		while (true) {
-			push(b);
-			sub();
-			swap();
-			push(1);
-			add();
-			swap();
-			dup();
-			push(b);
-			sub();
-			if (jgz()) {
+			if (*c == " ")
 				continue;
-			}
-			drop();
-			push(3);
-			add();
-			break;
-		}*/
+			else if (*c == "+")
+				add();
+			else if (*c == "-")
+				sub();
+			else if (*c == "*")
+				mul();
+			else if (*c == "/")
+				div();
+			else
+				push(stoi(*c));
+		}
 
 		print();
-		//}
+		
 
+		push(1);
+		push(2);		
+		mul();
+		push(3);
+		push(4);
+		mul();
+		add();
 
+		print();
 	}
 };
 
