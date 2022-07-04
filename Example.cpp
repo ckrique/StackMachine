@@ -1,26 +1,35 @@
-#include<iostream> 
+﻿#include<iostream> 
 #include<stack>
 using namespace std;
 #include "StackMAchine.h"
 
-/**
- * Example
- * Runs (a / b) + 3
- */
 class Example : public StackMachine {
 public:
 	
-	int a = 4;
-	int b = 2;
-
-
-	
 	void run() {
 		
-		//vector<string> tokensPostfix = infixToPostfix(/*"( A + B ) * C - ( D - E ) * ( F + G )"*/"1 * 2 + 3 * 4");
-		vector<string> tokensPostfix = infixToPostfix("( ( A + B ) * ( C - ( F / D ) )");
+		
+		// infix  10 + 3 * 5 / 3 
+		// posfix	10  3  5 * 3/+
+		vector<string> tokensPostfix;
+		tokensPostfix.push_back("10");
+		tokensPostfix.push_back("3");
+		tokensPostfix.push_back("5");
+		tokensPostfix.push_back("*");
+		tokensPostfix.push_back("3");
+		tokensPostfix.push_back("/");
+		tokensPostfix.push_back("+");
+		
+		string strTokens;
 
-		for (std::vector<std::string>::iterator c = tokensPostfix.begin(); c != tokensPostfix.end(); c++/*  C++  :-) C++ :-/   */) {
+		for (std::vector<std::string>::iterator c = tokensPostfix.begin(); c != tokensPostfix.end(); c++ /*  C++  :-) C++ :-/   */) 
+		{
+			strTokens += *c;
+			strTokens += " "; 			
+		}
+		cout << strTokens << endl;
+
+		for (std::vector<std::string>::iterator c = tokensPostfix.begin(); c != tokensPostfix.end(); c++ /*  C++  :-) C++ :-/   */) {
 			std::cout << *c << std::endl;
 
 			if (*c == " ")
@@ -33,20 +42,11 @@ public:
 				mul();
 			else if (*c == "/")
 				div();
-			else
+			else if (*c != "(" && *c != ")")
 				push(stoi(*c));
+
+			printStackItens();
 		}
-
-		print();
-		
-
-		push(1);
-		push(2);		
-		mul();
-		push(3);
-		push(4);
-		mul();
-		add();
 
 		print();
 	}

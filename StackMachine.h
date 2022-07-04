@@ -36,7 +36,9 @@ public:
 	}
 
 	void mul() {
-		javaStack.push(fullPop(&javaStack) * fullPop(&javaStack));
+		int x = fullPop(&javaStack);
+		int y = fullPop(&javaStack);		
+		javaStack.push(x * y);
 	}
 
 	void div() {
@@ -111,6 +113,29 @@ public:
 		}
 	}
 
+	void printStackItens() {
+		stack<int> printStack;
+		string vectoItens = "{";
+		int javaStackSize = javaStack.size();
+				
+		for (int i = 0; i < javaStackSize; i++)
+		{
+			int item = fullPop(&javaStack);
+			printStack.push(item);
+			vectoItens = vectoItens + " " + to_string(item);
+		}
+
+		for (int i = 0; i < javaStackSize; i++)
+		{
+			javaStack.push(printStack.top());
+			printStack.pop();
+
+		}
+
+		vectoItens = vectoItens + " }";
+		cout << vectoItens << endl;
+	}
+
 	vector<string> split(string str, char del) {
 		
 		vector<string> strVec;
@@ -134,7 +159,7 @@ public:
 		return strVec;
 	}
 
-
+	/*			   
 	vector<string> infixToPostfix(string infixExpr) 
 	{
 		map<string, int> prec;
@@ -146,8 +171,8 @@ public:
 		stack<string> opStack;
 		vector<string> postfixList;
 		postfixList.push_back(" ");
-		
-		vector<string> tokenList = split(infixExpr,' ');
+
+		vector<string> tokenList = split(infixExpr, ' ');
 
 		string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		string numbers = "0123456789";
@@ -157,16 +182,16 @@ public:
 				postfixList.push_back(token);
 			else if (token == "(")
 				opStack.push(token);
-			else if  (token == ")")
+			else if (token == ")")
 			{
 				string topToken = opStack.top();
 				opStack.pop();
-					while (topToken != "(")
-					{
-						postfixList.push_back(topToken);
-						topToken = opStack.top();
-						opStack.pop();
-					}
+				while (topToken != "(")
+				{
+					postfixList.push_back(topToken);
+					topToken = opStack.top();
+					opStack.pop();
+				}
 			}
 			else
 			{
@@ -177,8 +202,8 @@ public:
 				}
 				opStack.push(token);
 			}
-				
-		
+
+
 		while (!opStack.empty())
 		{
 			postfixList.push_back(opStack.top());
@@ -188,6 +213,122 @@ public:
 		string space = " ";
 
 		return postfixList;
+	}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// Function to return precedence of operators
+	int prec(char c)
+	{
+		if (c == '^')
+			return 3;
+		else if (c == '/' || c == '*')
+			return 2;
+		else if (c == '+' || c == '-')
+			return 1;
+		else
+			return -1;
 	}
+
+	// The main function to convert infix expression
+	// to postfix expression
+	vector<string> infixToPostfix(string s)
+	{
+
+		stack<char> st; // For stack operations, we are using
+						// C++ built in stack
+		string result;
+
+		for (int i = 0; i < s.length(); i++) {
+			char c = s[i];
+
+			// If the scanned character is
+			// an operand, add it to output string.
+			if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+				|| (c >= '0' && c <= '9'))
+				result += c;
+
+			// If the scanned character is an
+			// ‘(‘, push it to the stack.
+			else if (c == '(')
+				st.push('(');
+
+			// If the scanned character is an ‘)’,
+			// pop and to output string from the stack
+			// until an ‘(‘ is encountered.
+			else if (c == ')') {
+				while (st.top() != '(') {
+					result += st.top();
+					st.pop();
+				}
+				st.pop();
+			}
+
+			// If an operator is scanned
+			else {
+				while (!st.empty()
+					&& prec(s[i]) <= prec(st.top())) {
+					if (c == '^' && st.top() == '^')
+						break;
+					else {
+						result += st.top();
+						st.pop();
+					}
+				}
+				st.push(c);
+			}
+		}
+
+		// Pop all the remaining elements from the stack
+		while (!st.empty()) {
+			result += st.top();
+			st.pop();
+		}
+
+
+		vector<string> postfixList;
+		int N = result.length();
+		string strAuxiliar;
+		strAuxiliar = "";
+
+		for (int i = 0; i < N; i++) 
+		{
+			if (result[i] == '+' || result[i] == '-' || result[i] == '*' || result[i] == '/')
+			{
+				postfixList.push_back(strAuxiliar);
+				strAuxiliar = "";
+				string signal;
+				signal += result[i];
+				postfixList.push_back(signal);
+			}
+			else
+			{
+				strAuxiliar += result[i];
+			}
+		}
+		postfixList.push_back(strAuxiliar);
+		return postfixList;
+		
+	}
+
+
+
+
+
+
 
 };
